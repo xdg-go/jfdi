@@ -13,12 +13,19 @@ import (
 	"time"
 )
 
+// A Generator is a function for producing arbitrary values.  It consumes a
+// jfdi.Context; if nil is provided, a new Context is initialized and used for
+// any recursive value generation calls.
 type Generator func(*Context) interface{}
 
 var zeroGenerator = func(*Context) interface{} { return nil }
 
+// Map is shorthand for a key/value map of arbitrary type.
 type Map map[string]interface{}
 
+// String marshals a Map to JSON and returns it as a string.  If an error
+// occurs, the error is contained in the string.  For more precise error
+// handling, manually marshal to JSON and check the error value.
 func (m Map) String() string {
 	if m == nil {
 		return "{}"
@@ -30,8 +37,12 @@ func (m Map) String() string {
 	return string(buf)
 }
 
+// Slice is shorthand for an array of values with arbitrary type.
 type Slice []interface{}
 
+// String marshals a Slice to JSON and returns it as a string.  If an error
+// occurs, the error is contained in the string.  For more precise error
+// handling, manually marshal to JSON and check the error value.
 func (s Slice) String() string {
 	if s == nil {
 		return "[]"
@@ -43,12 +54,16 @@ func (s Slice) String() string {
 	return string(buf)
 }
 
+// The Context type is passed down through recursive Generator
+// calls.  It tracks depth, provides an independent PRNG, and
+// supports user-defined key/value data.
 type Context struct {
 	Depth int
 	Rand  *rand.Rand
 	Value Map
 }
 
+// NewContext initializes a Context with a fresh PRNG and value map.
 func NewContext() *Context {
 	return &Context{
 		Rand:  rand.New(rand.NewSource(time.Now().UnixNano())),
