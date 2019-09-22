@@ -21,13 +21,14 @@
 //     factory = jfdi.Object( Map{
 //         "name"     : jfdi.Pick("Alice", "Bob", "Carol"),
 //         "age"      : jfdi.Int(18, 65),
+//         "ssn"      : jfdi.Digits("###-##-####"),
 //         "friends", : jfdi.Array(jfdi.Int(1,3), jfdi.Pick("Dan", "Eve", Frank")),
 //     })
 //
 //     object := factory(jfdi.NewContext())
 //
 //     fmt.Println(object)
-//     // {"name":"Carol","age":42,"friends":["Frank", "Eve"]}
+//     // {"name":"Carol","age":42,"ssn":"314-15-9265","friends":["Eve"]}
 //
 // Define custom Generators or Generator constructors as needed if built-in
 // Generator constructors aren't enough.
