@@ -25,7 +25,7 @@ func checkFloatInRange(t *testing.T, got float64, low float64, high float64) {
 }
 
 // Loop forever and get killed by timeout if not covered
-func checkFuncCoversIntRange(t *testing.T, f func() int, xs []int) {
+func checkFuncCoversIntRange(f func() int, xs []int) {
 	seen := make([]bool, len(xs))
 	for {
 		n := f()

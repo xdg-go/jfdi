@@ -27,7 +27,8 @@ func TestInt(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		checkFuncCoversIntRange(t, func() int { return c.gen(nil).(Slice)[0].(int) }, c.expect)
+		c := c
+		checkFuncCoversIntRange(func() int { return c.gen(nil).(Slice)[0].(int) }, c.expect)
 	}
 }
 
