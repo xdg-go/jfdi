@@ -6,6 +6,10 @@
 
 package jfdi
 
+// Pick returns a generator that chooses one of the arguments with uniform
+// liklihood.  If the chosen item is a Generator, the value produced by that
+// generator is returned instead.  If no arguments are provided, the generator
+// returns nil.
 func Pick(xs ...interface{}) Generator {
 	return func(c *Context) interface{} {
 		if c == nil {

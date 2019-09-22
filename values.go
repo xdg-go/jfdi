@@ -11,6 +11,8 @@ import (
 	"unicode/utf8"
 )
 
+// Int returns a generator that a random integer in the range [low,high].  If
+// `low` is greater than `high`, it panics.
 func Int(low, high int) Generator {
 	if low > high {
 		panic("first argument must be <= second argument")
@@ -29,6 +31,8 @@ func Int(low, high int) Generator {
 	}
 }
 
+// Float64 returns a generator that a random float64 in the range [low,high).
+// If `low` is greater than `high`, it panics.
 func Float64(low, high float64) Generator {
 	if low > high {
 		panic("first argument must be <= second argument")
@@ -49,6 +53,9 @@ func Float64(low, high float64) Generator {
 
 var hexDigits = []rune{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'}
 
+// Digits returns a generator that replaces `#` characters in a template string
+// with a random digit from 0 to 9.  Backslashes will be treated as escape
+// characters.
 func Digits(pattern string) Generator {
 	return RuneMap(pattern, func(c *Context, r rune) rune {
 		if r == '#' {
@@ -58,6 +65,9 @@ func Digits(pattern string) Generator {
 	})
 }
 
+// HexDigits returns a generator that replaces `#` characters in a template
+// string with a random hexadecimal digit from 0 to f.  Backslashes will be
+// treated as escape characters.
 func HexDigits(pattern string) Generator {
 	return RuneMap(pattern, func(c *Context, r rune) rune {
 		if r == '#' {

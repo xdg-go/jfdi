@@ -12,6 +12,7 @@ import (
 	"github.com/icrowley/fake"
 )
 
+// Word returns a generator that produces a randomly-chosen latin word.
 func Word() Generator {
 	f := Words(1)
 	return func(c *Context) interface{} {
@@ -22,6 +23,9 @@ func Word() Generator {
 	}
 }
 
+// Words returns a generator that produces a slice of randomly-chosen latin word
+// of a given length.  The argument must be an integer or a generator of
+// integers.  If the length is negative or zero, the generator panics.
 func Words(n interface{}) Generator {
 	return func(c *Context) interface{} {
 		if c == nil {
@@ -39,6 +43,7 @@ func Words(n interface{}) Generator {
 	}
 }
 
+// Sentence returns a generator that produces a randomly-generated 'latin sentence'.
 func Sentence() Generator {
 	f := Sentences(1)
 	return func(c *Context) interface{} {
@@ -49,6 +54,10 @@ func Sentence() Generator {
 	}
 }
 
+// Sentences returns a generator that produces a slice of randomly-generated
+// latin 'sentences' of a given slice length.  The argument must be an integer
+// or a generator of integers.  If the length is negative or zero, the
+// generator panics.
 func Sentences(n interface{}) Generator {
 	return func(c *Context) interface{} {
 		if c == nil {
@@ -66,6 +75,10 @@ func Sentences(n interface{}) Generator {
 	}
 }
 
+// Join returns a generator that joins a slice of strings with a separator
+// string.  The first argument must be a slice of string or a generator of
+// them; the second argument must be a string or a generator of one.   The
+// Generator panics if either argument produces an invalid type.
 func Join(inputs interface{}, separator interface{}) Generator {
 	return func(c *Context) interface{} {
 		if c == nil {
