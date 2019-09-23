@@ -19,7 +19,8 @@ func TestObject(t *testing.T) {
 		"y": func() interface{} { return 42 },
 		"z": Object(Map{"a": 1, "b": "c"}),
 	})
-	checkStringIs(t, f(nil).(Map).String(), `{"x":23,"y":42,"z":{"a":1,"b":"c"}}`, "nested FakeHash")
+	checkStringIs(t, f(nil).(Map).String(),
+		`{"x":23,"y":42,"z":{"a":1,"b":"c"}}`, "nested FakeHash")
 }
 
 func TestArray(t *testing.T) {
@@ -59,7 +60,8 @@ func TestMaxDepth(t *testing.T) {
 			}),
 		),
 	})
-	checkStringIs(t, f(nil).(Map).String(), `{"x":[{"x":42,"y":null,"z":null}]}`, "Mixed hash and array, with depth limit")
+	checkStringIs(t, f(nil).(Map).String(),
+		`{"x":[{"x":42,"y":null,"z":null}]}`, "hash+array, with depth limit")
 
 	f = Object(Map{
 		"x": MaxDepthArray(3, 1,
@@ -70,5 +72,6 @@ func TestMaxDepth(t *testing.T) {
 			}),
 		),
 	})
-	checkStringIs(t, f(nil).(Map).String(), `{"x":[{"x":42,"y":[42],"z":{"x":42}}]}`, "Mixed hash and array, with depth limit")
+	checkStringIs(t, f(nil).(Map).String(),
+		`{"x":[{"x":42,"y":[42],"z":{"x":42}}]}`, "hash+array, without depth limit")
 }
