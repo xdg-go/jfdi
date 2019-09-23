@@ -11,11 +11,11 @@ JSON, unlike Go, allows for data structures with mixed types.  These are
 most-easily modeled in Go with `map[string]interface{}` (for objects) and
 `[]interface{}` (for arrays).  `jfdi` calls these `Map` and `Slice`, for short.
 
-`jfdi` uses higher-order functions extensively -- functions that return
+`jfdi` uses higher-order functions extensively -- constructor functions that return
 `Generator` functions, which are called to recursively produce the
 desired result.  For example, to define a JSON object, use the `Object`
 function with a template `Map`.  If any values in the `Map` are also
-`Generator`s, they are recursively called to fill in the value:
+`Generators`, they are recursively called to fill in the value:
 
     factory := jfdi.Object( jfdi.Map{
         "name"     : jfdi.Pick("Alice", "Bob", "Carol"),
@@ -29,7 +29,7 @@ function with a template `Map`.  If any values in the `Map` are also
     fmt.Println(object)
     // {"name":"Carol","age":42,"ssn":"314-15-9265","friends":["Eve"]}
 
-Define custom `Generator`s or `Generator` constructors as needed if built-in
+Define custom `Generators` or `Generator` constructors as needed if built-in
 `Generator` constructors aren't enough.
 
 # Copyright and License
