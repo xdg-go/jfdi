@@ -6,7 +6,10 @@
 
 package jfdi
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 // checks for string equality
 func checkStringIs(t *testing.T, got, wanted, label string) {
@@ -67,6 +70,14 @@ func TestMap_String(t *testing.T) {
 		"x": 42,
 	}
 	checkStringIs(t, regularMap.String(), `{"x":42}`, "empty map")
+
+	// Stringification of un-marshalable Map
+	badMap := Map{
+		"x": func() { return },
+	}
+	if s := badMap.String(); !strings.Contains(s, "could not marshal object") {
+		t.Errorf("Didn't get expected marshaling error: got %q", s)
+	}
 }
 
 func TestSlice_String(t *testing.T) {
@@ -85,4 +96,10 @@ func TestSlice_String(t *testing.T) {
 		"x", 42,
 	}
 	checkStringIs(t, regularSlice.String(), `["x",42]`, "empty array")
+
+	// Stringification of un-marshalable Slice
+	badSlice := Slice{func() { return }}
+	if s := badSlice.String(); !strings.Contains(s, "could not marshal array") {
+		t.Errorf("Didn't get expected marshaling error: got %q", s)
+	}
 }

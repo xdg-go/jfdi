@@ -32,7 +32,7 @@ func (m Map) String() string {
 	}
 	buf, err := json.Marshal(m)
 	if err != nil {
-		return fmt.Sprintf("could not marshall object: %v", err)
+		return fmt.Sprintf("could not marshal object: %v", err)
 	}
 	return string(buf)
 }
@@ -49,7 +49,7 @@ func (s Slice) String() string {
 	}
 	buf, err := json.Marshal(s)
 	if err != nil {
-		return fmt.Sprintf("could not marshall array: %v", err)
+		return fmt.Sprintf("could not marshal array: %v", err)
 	}
 	return string(buf)
 }
