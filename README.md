@@ -17,16 +17,17 @@ desired result.  For example, to define a JSON object, use the `Object`
 function with a template `Map`.  If any values in the `Map` are also
 `Generator`s, they are recursively called to fill in the value:
 
-    factory = jfdi.Object( Map{
+    factory := jfdi.Object( jfdi.Map{
         "name"     : jfdi.Pick("Alice", "Bob", "Carol"),
         "age"      : jfdi.Int(18, 65),
-        "friends", : jfdi.Array(jfdi.Int(1,3), jfdi.Pick("Dan", "Eve", Frank")),
+        "ssn"      : jfdi.Digits("###-##-####"),
+        "friends"  : jfdi.Array(jfdi.Int(1,3), jfdi.Pick("Dan", "Eve", "Frank")),
     })
 
     object := factory(jfdi.NewContext())
 
     fmt.Println(object)
-    // {"name":"Carol","age":42,"friends":["Frank", "Eve"]}
+    // {"name":"Carol","age":42,"ssn":"314-15-9265","friends":["Eve"]}
 
 Define custom `Generator`s or `Generator` constructors as needed if built-in
 `Generator` constructors aren't enough.

@@ -18,11 +18,11 @@
 // function with a template Map.  If any values in the Map are also
 // Generators, they are recursively called to fill in the value:
 //
-//     factory = jfdi.Object( Map{
+//     factory := jfdi.Object( jfdi.Map{
 //         "name"     : jfdi.Pick("Alice", "Bob", "Carol"),
 //         "age"      : jfdi.Int(18, 65),
 //         "ssn"      : jfdi.Digits("###-##-####"),
-//         "friends", : jfdi.Array(jfdi.Int(1,3), jfdi.Pick("Dan", "Eve", Frank")),
+//         "friends"  : jfdi.Array(jfdi.Int(1,3), jfdi.Pick("Dan", "Eve", "Frank")),
 //     })
 //
 //     object := factory(jfdi.NewContext())
