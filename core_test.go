@@ -90,7 +90,7 @@ func TestMap_String(t *testing.T) {
 
 	// Stringification of un-marshalable Map
 	badMap := Map{
-		"x": func() { return },
+		"x": func() {},
 	}
 	if s := badMap.String(); !strings.Contains(s, "could not marshal object") {
 		t.Errorf("Didn't get expected marshaling error: got %q", s)
@@ -115,7 +115,7 @@ func TestSlice_String(t *testing.T) {
 	checkStringIs(t, regularSlice.String(), `["x",42]`, "empty array")
 
 	// Stringification of un-marshalable Slice
-	badSlice := Slice{func() { return }}
+	badSlice := Slice{func() {}}
 	if s := badSlice.String(); !strings.Contains(s, "could not marshal array") {
 		t.Errorf("Didn't get expected marshaling error: got %q", s)
 	}
