@@ -32,6 +32,27 @@ func TestInt(t *testing.T) {
 	}
 }
 
+func TestInt31(t *testing.T) {
+	t.Parallel()
+
+	f := Array(1, Int31(1, 1))
+	checkStringIs(t, f(nil).(Slice).String(), `[1]`, "single value Int31")
+
+	cases := []struct {
+		gen    Generator
+		expect []int32
+	}{
+		{Array(1, Int31(1, 3)), []int32{1, 2, 3}},      // positive boundaries
+		{Array(1, Int31(-3, -1)), []int32{-3, -2, -1}}, // negative boundaries
+		{Array(1, Int31(-1, 1)), []int32{-1, 0, 1}},    // zero-spannning boundaries
+	}
+
+	for _, c := range cases {
+		c := c
+		checkFuncCoversInt31Range(func() int32 { return c.gen(nil).(Slice)[0].(int32) }, c.expect)
+	}
+}
+
 func TestFloat64(t *testing.T) {
 	t.Parallel()
 

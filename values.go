@@ -31,6 +31,26 @@ func Int(low, high int) Generator {
 	}
 }
 
+// Int31 returns a generator that a random integer in the range [low,high].  If
+// `low` is greater than `high`, it panics.  The range must not exceed 31 bits.
+func Int31(low, high int32) Generator {
+	if low > high {
+		panic("first argument must be <= second argument")
+	}
+	if low == high {
+		return func(c *Context) interface{} {
+			return low
+		}
+	}
+	span := high - low + 1
+	return func(c *Context) interface{} {
+		if c == nil {
+			c = NewContext()
+		}
+		return low + c.Rand.Int31n(span)
+	}
+}
+
 // Float64 returns a generator that a random float64 in the range [low,high).
 // If `low` is greater than `high`, it panics.
 func Float64(low, high float64) Generator {

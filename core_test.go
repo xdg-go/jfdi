@@ -44,6 +44,23 @@ func checkFuncCoversIntRange(f func() int, xs []int) {
 	}
 }
 
+// Loop forever and get killed by timeout if not covered
+func checkFuncCoversInt31Range(f func() int32, xs []int32) {
+	seen := make([]bool, len(xs))
+	for {
+		n := f()
+		for i, x := range xs {
+			if n == x {
+				seen[i] = true
+				break
+			}
+		}
+		if countTrue(seen) == len(xs) {
+			break
+		}
+	}
+}
+
 func countTrue(xs []bool) int {
 	sum := 0
 	for _, x := range xs {
