@@ -75,3 +75,13 @@ func TestMaxDepth(t *testing.T) {
 	checkStringIs(t, f(nil).(Map).String(),
 		`{"x":[{"x":42,"y":[42],"z":{"x":42}}]}`, "hash+array, without depth limit")
 }
+
+func TestSequence(t *testing.T) {
+	t.Parallel()
+
+	f := Sequence(2, 23)
+	checkStringIs(t, f(nil).(Slice).String(), `[2,23]`, "simple FakeSequence")
+
+	f = Sequence(2, Sequence(3, 4))
+	checkStringIs(t, f(nil).(Slice).String(), `[2,[3,4]]`, "nested FakeSequence")
+}

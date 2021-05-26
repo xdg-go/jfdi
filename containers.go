@@ -89,3 +89,24 @@ func MaxDepthArray(maxDepth int, length, elementModel interface{}) Generator {
 		return output
 	}
 }
+
+// Sequence returns a Generator that constructs a Slice. Each elementModel, which may be a value
+// or a Generator, will be used as elements of the Slice at their respective positions.
+//
+// By mixing Generators or constants, various Slice structures are possible:
+//   jfdi.Sequence(3, 42)            // [3, 42]
+//   jfdi.Sequence(jfdi.Int(1,3), jfdi.Int(4,6)) // 2 elements of integers between 1-3 and 4-6 respectively.
+func Sequence(elementModels ...interface{}) Generator {
+	return func(c *Context) interface{} {
+		if c == nil {
+			c = NewContext()
+		}
+
+		c.Depth++
+		output := make(Slice, len(elementModels))
+		for i := 0; i < len(elementModels); i++ {
+			output[i] = expand(c, elementModels[i])
+		}
+		return output
+	}
+}
