@@ -6,7 +6,11 @@
 
 package jfdi
 
-import "testing"
+import (
+	"fmt"
+	"math/rand"
+	"testing"
+)
 
 func TestObject(t *testing.T) {
 	t.Parallel()
@@ -84,4 +88,34 @@ func TestSequence(t *testing.T) {
 
 	f = Sequence(2, Sequence(3, 4))
 	checkStringIs(t, f(nil).(Slice).String(), `[2,[3,4]]`, "nested FakeSequence")
+}
+
+func TestSeededMapMerge(t *testing.T) {
+	t.Parallel()
+
+	f := Object(Map{"x": Int(1, 1000)}, Map{"y": Int(1, 1000)})
+
+	getSeededContext := func() *Context {
+		c := NewContext()
+		c.Rand = rand.New(rand.NewSource(42))
+		return c
+	}
+
+	// Expect the same results for two series of maps generated from the same
+	// seed.
+
+	var first []string
+	var second []string
+
+	c1 := getSeededContext()
+	c2 := getSeededContext()
+
+	for i := 0; i < 10; i++ {
+		first = append(first, f(c1).(Map).String())
+		second = append(second, f(c2).(Map).String())
+	}
+
+	for i := 0; i < 10; i++ {
+		checkStringIs(t, first[i], second[i], fmt.Sprintf("seeded map merge, doc %d", i))
+	}
 }

@@ -6,6 +6,8 @@
 
 package jfdi
 
+import "sort"
+
 // Object consumes a variable number of Maps or Map generators to produce a new
 // Generator that constructs a Map.  The input list of (possibly generated)
 // Maps are merged by key (last key wins), and then any Generators among the
@@ -43,9 +45,16 @@ func MaxDepthObject(maxDepth int, xs ...interface{}) Generator {
 			}
 		}
 
+		// Call expand by key in sorted order to ensure determinism
+		// in random number generation associated with each key.
 		output := Map{}
-		for k, v := range model {
-			output[k] = expand(c, v)
+		keys := make([]string, 0, len(model))
+		for k := range model {
+			keys = append(keys, k)
+		}
+		sort.Strings(keys)
+		for _, k := range keys {
+			output[k] = expand(c, model[k])
 		}
 		return output
 	}
